@@ -30,9 +30,9 @@ public class PaymentPage {
     }
 
     public void fillCardDetails(String cardNumber, String expiryDate, String cvv) {
-        driver.findElement(cardNumberField).sendKeys(cardNumber);
+        driver.findElement(cardNumberField).sendKeys(maskCardNumber(cardNumber));
         driver.findElement(cardExpiryField).sendKeys(expiryDate);
-        driver.findElement(cardCVVField).sendKeys(cvv);
+        driver.findElement(cardCVVField).sendKeys(maskCVV(cvv));
     }
 
     public void clickContinue() {
@@ -47,5 +47,16 @@ public class PaymentPage {
         // This is just an example, modify based on your confirmation message locator
         By confirmationMessage = By.xpath("//div[@class='alert alert-success']");
         return driver.findElement(confirmationMessage).getText();
+    }
+
+    private String maskCardNumber(String cardNumber) {
+        if (cardNumber == null || cardNumber.length() <= 4) {
+            return "****";
+        }
+        return cardNumber.substring(0, 2) + "******" + cardNumber.substring(cardNumber.length() - 2);
+    }
+
+    private String maskCVV(String cvv) {
+        return "***";
     }
 }
