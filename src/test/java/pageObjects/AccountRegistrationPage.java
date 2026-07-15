@@ -16,7 +16,7 @@ public class AccountRegistrationPage extends BasePage{
 WebElement txtFirstname;
 
 @FindBy(xpath="//input[@id='input-lastname']") 
-WebElement txtLasttname;
+WebElement txtLastname;
 
 @FindBy(xpath="//input[@id='input-email']") 
 WebElement txtEmail;
@@ -31,7 +31,7 @@ WebElement txtPassword;
 WebElement txtConfirmPassword;
 
 @FindBy(xpath="//input[@name='agree']") 
-WebElement chkdPolicy;
+WebElement chkPolicy;
 
 @FindBy(xpath="//input[@value='Continue']") 
 WebElement btnContinue;
@@ -46,7 +46,7 @@ public void setFirstName(String fname) {
 }
 
 public void setLastName(String lname) {
-	txtLasttname.sendKeys(lname);
+	txtLastname.sendKeys(lname);
 
 }
 
@@ -71,7 +71,7 @@ public void setConfirmPassword(String pwd) {
 }
 
 public void setPrivacyPolicy() {
-	chkdPolicy.click();
+	chkPolicy.click();
 
 }
 
