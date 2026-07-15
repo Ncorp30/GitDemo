@@ -21,16 +21,9 @@ public class AddToCart extends BasePage {
 
 
 	@FindBy(xpath = "//button[@class='btn btn-primary']//i[@class='fa fa-shopping-cart']")
-	WebElement addtocart;
+	WebElement productAddToCartButton;
 	@FindBy(xpath = "//button[@id='button-cart']")
-	WebElement addtocart1;
-	/*@FindBy(xpath = "//input[@id='input-option225']")
-	WebElement txtdeliverydate;
-	
-	@FindBy(xpath = "//input[@id='input-quantity']")
-	WebElement txtquantity;
-	@FindBy(xpath = "//button[@id='button-cart']")
-	WebElement btnAddToCart;*/
+	WebElement confirmAddToCartButton;
 	
 	public void setEmail(String email) {
 		txtEmailAddress.sendKeys(email);
@@ -47,7 +40,7 @@ public class AddToCart extends BasePage {
 	
 
 	public void clickcart() {
-		addtocart.click();
+		productAddToCartButton.click();
 	}
 	
 	/*public void setDeliveryDate(String delivery) {
@@ -63,7 +56,6 @@ public class AddToCart extends BasePage {
 	}*/
 	
 	public void clickcarts() {
-		addtocart1.click();
+		confirmAddToCartButton.click();
 	}
 }
- 
