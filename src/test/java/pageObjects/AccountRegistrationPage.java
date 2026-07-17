@@ -99,6 +99,24 @@ public void clickContinue() {
 	
 }
 
+public void registerUser(String fname, String lname, String email, String tel, String pwd) {
+	setFirstName(fname);
+	setLastName(lname);
+	setEmail(email);
+	setTelephone(tel);
+	setPassword(pwd);
+	setConfirmPassword(pwd);
+	setPrivacyPolicy();
+}
+
+public void submit() {
+	clickContinue();
+}
+
+public String validateSuccessMessage() {
+	return getConfirmationMsg();
+}
+
 public String getConfirmationMsg() {
 	try {
 		return (msgConfirmation.getText());
