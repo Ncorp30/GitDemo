@@ -12,28 +12,28 @@ public class AccountRegistrationPage extends BasePage{
 	}
 	
 
-@FindBy(xpath="//input[@id='input-firstname']") 
+@FindBy(id="input-firstname") 
 WebElement txtFirstname;
 
-@FindBy(xpath="//input[@id='input-lastname']") 
-WebElement txtLasttname;
+@FindBy(id="input-lastname") 
+WebElement txtLastname;
 
-@FindBy(xpath="//input[@id='input-email']") 
+@FindBy(id="input-email") 
 WebElement txtEmail;
 
-@FindBy(xpath="//input[@id='input-telephone']") 
+@FindBy(id="input-telephone") 
 WebElement txtTelephone;
 
-@FindBy(xpath="//input[@id='input-password']") 
+@FindBy(id="input-password") 
 WebElement txtPassword;
 
-@FindBy(xpath="//input[@id='input-confirm']") 
+@FindBy(id="input-confirm") 
 WebElement txtConfirmPassword;
 
-@FindBy(xpath="//input[@name='agree']") 
+@FindBy(name="agree") 
 WebElement chkdPolicy;
 
-@FindBy(xpath="//input[@value='Continue']") 
+@FindBy(css="input[value='Continue']") 
 WebElement btnContinue;
 
 @FindBy(xpath = "//h1[normalize-space()='Your Account Has Been Created!']")
@@ -46,7 +46,7 @@ public void setFirstName(String fname) {
 }
 
 public void setLastName(String lname) {
-	txtLasttname.sendKeys(lname);
+	txtLastname.sendKeys(lname);
 
 }
 
