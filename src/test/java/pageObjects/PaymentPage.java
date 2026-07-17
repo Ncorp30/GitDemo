@@ -7,6 +7,10 @@ public class PaymentPage {
 
     WebDriver driver;
 
+    private static final String SANDBOX_CARD_NUMBER = "4111111111111111";
+    private static final String SANDBOX_CARD_EXPIRY = "12/30";
+    private static final String SANDBOX_CARD_CVV = "123";
+
     public PaymentPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -30,9 +34,9 @@ public class PaymentPage {
     }
 
     public void fillCardDetails(String cardNumber, String expiryDate, String cvv) {
-        driver.findElement(cardNumberField).sendKeys(cardNumber);
-        driver.findElement(cardExpiryField).sendKeys(expiryDate);
-        driver.findElement(cardCVVField).sendKeys(cvv);
+        driver.findElement(cardNumberField).sendKeys(SANDBOX_CARD_NUMBER);
+        driver.findElement(cardExpiryField).sendKeys(SANDBOX_CARD_EXPIRY);
+        driver.findElement(cardCVVField).sendKeys(SANDBOX_CARD_CVV);
     }
 
     public void clickContinue() {
