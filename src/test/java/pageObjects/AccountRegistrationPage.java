@@ -113,6 +113,11 @@ public void submitRegistration() {
 	clickContinue();
 }
 
+public void registerUser(String fname, String lname, String email, String tel, String pwd, String confirmPwd) {
+	fillRegistrationForm(fname, lname, email, tel, pwd, confirmPwd);
+	submitRegistration();
+}
+
 public String getConfirmationMsg() {
 	try {
 		return (msgConfirmation.getText());
@@ -122,4 +127,13 @@ public String getConfirmationMsg() {
 	}
 
 }
+
+public boolean isConfirmationMessageDisplayed() {
+	try {
+		return msgConfirmation.isDisplayed();
+	} catch (Exception e) {
+		return false;
+	}
+}
+
 }
