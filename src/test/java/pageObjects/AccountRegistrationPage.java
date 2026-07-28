@@ -99,6 +99,20 @@ public void clickContinue() {
 	
 }
 
+public void fillRegistrationForm(String fname, String lname, String email, String tel, String pwd, String confirmPwd) {
+	setFirstName(fname);
+	setLastName(lname);
+	setEmail(email);
+	setTelephone(tel);
+	setPassword(pwd);
+	setConfirmPassword(confirmPwd);
+}
+
+public void submitRegistration() {
+	setPrivacyPolicy();
+	clickContinue();
+}
+
 public String getConfirmationMsg() {
 	try {
 		return (msgConfirmation.getText());
