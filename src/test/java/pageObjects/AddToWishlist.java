@@ -13,7 +13,7 @@ public class AddToWishlist extends BasePage {
 
 	//@FindBy(xpath = "//a[normalize-space()='Show AllLaptops & Notebooks']")
 	//WebElement Notebooks;
-	@FindBy(xpath = "//div[@id='content']//div[1]//div[1]//div[2]//div[2]//button[2]//i[1]")
+	@FindBy(xpath = "//div[@id='content']//button[contains(@onclick,'wishlist.add')]//i")
 	WebElement firstitem;
 
 	//public void clickNotebookslaptops() {
