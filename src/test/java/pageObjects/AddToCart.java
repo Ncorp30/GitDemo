@@ -10,16 +10,6 @@ public class AddToCart extends BasePage {
 		super(driver);
 	}
 
-	@FindBy(xpath = "//input[@id='input-email']")
-	private WebElement txtEmailAddress;
-
-	@FindBy(xpath = "//input[@id='input-password']")
-	private WebElement txtPassword;
-
-	@FindBy(xpath = "//input[@value='Login']")
-	private WebElement btnLogin;
-
-
 	@FindBy(xpath = "//button[@class='btn btn-primary']//i[@class='fa fa-shopping-cart']")
 	private WebElement addtocart;
 	@FindBy(xpath = "//button[@id='button-cart']")
@@ -32,20 +22,6 @@ public class AddToCart extends BasePage {
 	@FindBy(xpath = "//button[@id='button-cart']")
 	WebElement btnAddToCart;*/
 	
-	public void setEmail(String email) {
-		txtEmailAddress.sendKeys(email);
-	}
-
-	public void setPassword(String pwd) {
-		txtPassword.sendKeys(pwd);
-	}
-
-	public void clickLogin() {
-		btnLogin.click();
-	}
-
-	
-
 	public void clickcart() {
 		addtocart.click();
 	}
