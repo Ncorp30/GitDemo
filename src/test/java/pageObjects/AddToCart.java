@@ -1,12 +1,8 @@
 package pageObjects;
 
-import java.time.Duration;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class AddToCart extends BasePage {
 
@@ -26,9 +22,8 @@ public class AddToCart extends BasePage {
 	@FindBy(xpath = "//button[@id='button-cart']")
 	WebElement btnAddToCart;*/
 	
-	public void clickAddToCart() {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		wait.until(ExpectedConditions.elementToBeClickable(addtocart)).click();
+	public void clickcart() {
+		addtocart.click();
 	}
 	
 	/*public void setDeliveryDate(String delivery) {
@@ -43,9 +38,8 @@ public class AddToCart extends BasePage {
 		btnAddToCart.click();
 	}*/
 	
-	public void clickAddToCarts() {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		wait.until(ExpectedConditions.elementToBeClickable(addtocart1)).click();
+	public void clickcarts() {
+		addtocart1.click();
 	}
 }
  
