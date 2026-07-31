@@ -1,5 +1,258 @@
 # AI Fix Notes
 
+Session: seq-1785490895591-qsjsi53xs
+Repository: Ncorp30/GitDemo
+
+## Summary
+
+- Detected actionable issues: 76
+- Issues with proposed PR changes: 1
+- Issues requiring manual review: 75
+- Automated fix mode: partial / safety-first
+
+## Safety Policy
+
+High-priority findings touching security, authentication, credentials, network behavior, dependency safety, privacy, request handling, or response handling are not silently edited by the agent. They are listed for manual review unless the workflow can generate a bounded, low-risk change with enough context.
+
+## Proposed Changes Included in This PR
+
+- [1] (high) src/test/java/pageObjects/CheckoutPage.java: Page Object appears to be using many direct locator fields and likely incomplete/long method chaining (snippet ends with ellipsis). If the class lacks behavior encapsulation and waits around element interactions, it will be brittle and hard to maintain. Consider centralizing locator usage, adding explicit wait helpers in the base page, and exposing higher-level actions instead of raw field access.
+
+## Manual Review Required
+
+- [1] (critical) src/test/java/pageObjects/PaymentPage.java: Payment-related automation may handle sensitive card data. The code suggests direct field manipulation without visible masking, validation, or secure handling boundaries. Ensure test data is dummy-only, never log card values, and avoid storing PAN/CVV in source, logs, screenshots, or reports.
+  - Reason: High-priority security-sensitive finding requires human review before code changes.
+  - Next step: Confirm the intended security behavior, threat model, and tests before applying a targeted fix.
+- [2] (critical) src/test/java/testBase/BaseClass.java: Potentially insecure WebDriver/test automation base class likely contains hardcoded environment setup, direct browser driver instantiation, and shared mutable driver state. In test infrastructure, this can expose secrets/config via properties files, cause unsafe parallel execution, and create brittle execution environments. Recommend externalizing all credentials/configuration, using environment variables or a secure secret store, and avoiding static/shared driver patterns unless explicitly thread-safe.
+  - Reason: High-priority security-sensitive finding requires human review before code changes.
+  - Next step: Confirm the intended security behavior, threat model, and tests before applying a targeted fix.
+- [3] (high) reports/Test-Report-2025.01.06.20.42.04.html: The report loads several third-party assets from CDN URLs (Extent framework, Font Awesome, and likely scripts below the truncated section). This creates a supply-chain risk and makes report rendering dependent on external availability. If these reports are viewed in constrained environments, external asset loading can also leak metadata about report usage.
+  - Reason: High-priority security-sensitive finding requires human review before code changes.
+  - Next step: Confirm the intended security behavior, threat model, and tests before applying a targeted fix.
+- [4] (high) reports/Test-Report-2025.01.06.20.48.41.html: The HTML report depends on external CDN-hosted resources for styling and scripts. This is a security and reliability concern for generated test artifacts because reports should remain self-contained and reproducible. Prefer local/static asset packaging.
+  - Reason: High-priority security-sensitive finding requires human review before code changes.
+  - Next step: Confirm the intended security behavior, threat model, and tests before applying a targeted fix.
+- [5] (high) src/test/java/utilities/ExcelUtility.java: The class accepts a file path from the caller and likely reads/writes directly to that location. If path input is external or user-controlled, this can create path traversal or unintended overwrite risks. Validate paths, restrict allowed directories, and sanitize inputs before file access.
+  - Reason: High-priority security-sensitive finding requires human review before code changes.
+  - Next step: Confirm the intended security behavior, threat model, and tests before applying a targeted fix.
+- [6] (high) test-output/index.html: The page loads a critical visualization dependency from `https://www.google.com/jsapi`, creating a supply-chain and availability dependency on a third-party host. For test reports, this can break offline usage and introduces external script trust risk. Vendor or bundle dependencies locally where possible.
+  - Reason: The file is inside the generated test-output output directory.
+  - Next step: Locate and update the source report generator, listener, or formatter, then regenerate the artifact and rerun analysis.
+- [7] (high) test-output/testng-reports2.js: Theme selection logic appears broken and inconsistent. The code checks cookieValue[1] against both 'null' and theme strings, but `document.cookie.split('=')` is not a reliable way to parse cookies and will fail with multiple cookies or encoded values. Also, `setAttribute('disabled', 'false')` still disables the element because boolean attributes are truthy when present. This can leave the UI in an incorrect state and make the theme toggle unreliable.
+  - Reason: The file is inside the generated test-output output directory.
+  - Next step: Locate and update the source report generator, listener, or formatter, then regenerate the artifact and rerun analysis.
+- [8] (medium) test-output/Default suite/Default test.html: This file contains legacy inline JavaScript with global scope helpers and outdated browser fallbacks. While common in generated TestNG reports, it would be better to modernize or isolate script logic to reduce global namespace pollution and improve readability.
+  - Reason: The file is inside the generated test-output output directory.
+  - Next step: Locate and update the source report generator, listener, or formatter, then regenerate the artifact and rerun analysis.
+- [9] (medium) test-output/index.html: Multiple external CSS/JS resources are loaded synchronously in the document head, which can delay first render and make report loading slower. Consider bundling, using local assets, or deferring non-critical scripts.
+  - Reason: The file is inside the generated test-output output directory.
+  - Next step: Locate and update the source report generator, listener, or formatter, then regenerate the artifact and rerun analysis.
+- [10] (medium) test-output/Suite/master.html: Inline JavaScript uses legacy patterns (`<!--` comment wrappers, global functions, `document.all` fallback) that reduce maintainability and compatibility clarity. Since this is generated output, it is acceptable functionally but should not be treated as a pattern for application code.
+  - Reason: The file is inside the generated test-output output directory.
+  - Next step: Locate and update the source report generator, listener, or formatter, then regenerate the artifact and rerun analysis.
+- [11] (medium) test-output/testng-reports.js: Click handlers are attached directly to each matching element at ready time. If the report content is dynamic or large, event delegation on a stable parent would be more efficient and more robust. Also, multiple jQuery selectors are re-evaluated repeatedly inside handlers.
+  - Reason: The file is inside the generated test-output output directory.
+  - Next step: Locate and update the source report generator, listener, or formatter, then regenerate the artifact and rerun analysis.
+- [12] (medium) test-output/testng-reports2.js: The function is deeply nested with repeated `localStorage.getItem('Theme')` and repeated DOM lookups (`getElementById`). This increases complexity and makes the control flow hard to reason about. Cache state and elements once, and refactor into smaller functions.
+  - Reason: The file is inside the generated test-output output directory.
+  - Next step: Locate and update the source report generator, listener, or formatter, then regenerate the artifact and rerun analysis.
+- [13] (medium) test-output/testng-reports2.js: Using `window.onload = function () { ... }` can overwrite existing onload handlers. Prefer `window.addEventListener('load', ...)` or `DOMContentLoaded` for safer composition.
+  - Reason: The file is inside the generated test-output output directory.
+  - Next step: Locate and update the source report generator, listener, or formatter, then regenerate the artifact and rerun analysis.
+- [14] (low) test-output/emailable-report.html: Generated report artifact with no direct code-quality concern. If tracked in git, it is usually better treated as build output and ignored.
+  - Reason: The file is inside the generated test-output output directory.
+  - Next step: Locate and update the source report generator, listener, or formatter, then regenerate the artifact and rerun analysis.
+- [15] (low) test-output/Suite/chrometest.html: This is generated test output, not source code. It should typically be excluded from code review findings unless checked into version control intentionally. If committed, it adds noise and makes the repository harder to maintain.
+  - Reason: The file is inside the generated test-output output directory.
+  - Next step: Locate and update the source report generator, listener, or formatter, then regenerate the artifact and rerun analysis.
+- [16] (low) test-output/Suite/edgetest.html: Generated HTML report artifact. Consider excluding test-output artifacts from source control to reduce repository bloat and accidental churn.
+  - Reason: The file is inside the generated test-output output directory.
+  - Next step: Locate and update the source report generator, listener, or formatter, then regenerate the artifact and rerun analysis.
+- [17] (low) test-output/testng-reports.js: The script uses `var` instead of `let`/`const`, which increases scope-related risks and reduces readability in modern JavaScript. Prefer `const` for immutable values and `let` where reassignment is required.
+  - Reason: The file is inside the generated test-output output directory.
+  - Next step: Locate and update the source report generator, listener, or formatter, then regenerate the artifact and rerun analysis.
+- [18] (high) src/test/java/pageObjects/PaymentPage.java: Methods appear to use string-based branching for payment selection, which is error-prone and hard to extend. Replace magic strings with an enum or constants to improve type safety and reduce typo-driven defects.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [19] (high) src/test/java/pageObjects/ShippingPage.java: Page Object uses package-private locator fields instead of private final fields. This weakens encapsulation and makes the class easier to misuse or mutate unexpectedly. Prefer private final By locators and a final WebDriver reference.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [20] (high) src/test/java/pageObjects/ShoppingCart.java: Page object uses direct WebDriver.findElement calls repeatedly instead of encapsulating waits and element access through reusable helpers. This increases duplication and flakiness, especially for dynamic UI elements.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [21] (high) src/test/java/pageObjects/ShoppingCart.java: Methods such as setQuantity and selectDeliveryDate assume elements are immediately available and interactable, but no explicit waits are used. This can lead to intermittent failures on slower pages or in CI environments.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [22] (high) src/test/java/testBase/BaseClass.java: Imports indicate likely dead/unused code and low cohesion (e.g., FileReader, RandomStringUtils, multiple browser drivers, logging, screenshots). This suggests the class may be handling too many responsibilities: setup, teardown, utilities, reporting, and driver management. Split into smaller concerns (DriverFactory, TestHooks, ScreenshotUtil, ConfigLoader) to improve testability and reduce duplication.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [23] (high) src/test/java/testBase/BaseClass.java: If the base class initializes browsers per test class without reuse strategy, suite execution may be slow and resource-heavy. Repeated browser startup is a major bottleneck in Selenium test suites. Prefer centralized driver lifecycle control, optional headless execution for CI, and parallel-safe WebDriver management (ThreadLocal) when running multiple tests.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [24] (high) src/test/java/testCases/TC_002_LoginTest.java: Try/catch wrapping in test methods can hide failures if exceptions are swallowed or only logged. Test code should generally let assertions and exceptions fail fast, with cleanup in finally/@AfterMethod. If catch blocks are used, they must rethrow after logging.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [25] (high) src/test/java/testCases/TC_003_LoginDDT.java: Data-driven test contains inline comment logic and likely duplicated login/logout flow similar to other test cases. This indicates copy-paste test design, which increases maintenance cost and risk of inconsistent assertions. Refactor repeated setup and login steps into reusable methods or a shared helper/page action layer.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [26] (high) src/test/java/testCases/TC_004_Wishlist.java: Wishlist test also contains copied login flow and misleading log labels ('TC_002_LoginTest'). This is a strong signal of duplicated, error-prone test code. Refactor common login/navigation steps into reusable page methods or a dedicated test utility.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [27] (high) src/test/java/testCases/TC_005_AddToCart.java: Test naming and logger messages indicate copy-paste from login test ('TC_002_LoginTest' log labels in AddToCart). This is a correctness and maintainability issue: logs will mislead debugging, and the test intent is obscured. Rename methods/logs to match the actual behavior and split setup from action verification.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [28] (high) src/test/java/testCases/TitleVerificationTest.java: Test class extends BaseClass but also declares its own WebDriver field, which risks shadowing/confusing driver lifecycle management. This can cause inconsistent setup/teardown behavior and flaky tests.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [29] (high) src/test/java/testCases/TitleVerificationTest.java: ChromeDriver is instantiated directly in setUp without visible WebDriverManager/configuration handling. This makes the test environment brittle and can fail across machines/CI due to missing driver binaries or incompatible browser versions.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [30] (high) src/test/java/utilities/ExcelUtility.java: This utility holds FileInputStream and FileOutputStream as instance fields, which raises the risk of leaked file handles if streams are not consistently closed. Use try-with-resources in read/write methods and avoid keeping streams as long-lived object state.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [31] (high) src/test/java/utilities/ExtentReportManager.java: The class appears to be a TestNG listener with reporting responsibilities, file I/O, and likely browser-opening logic in a single utility. This mixes concerns and can make the class hard to test and extend. Recommend splitting report lifecycle management, event handling, and any OS/Desktop integration into separate components.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [32] (high) src/test/java/utilities/ExtentReportManager.java: The file imports java.awt.Desktop and java.net.URL, suggesting external resource interaction. Review for proper guarding and exception handling around Desktop.browse/open operations, since these can fail on headless environments and CI agents. Unsafe use here can break test execution in automation pipelines.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [33] (medium) reports/Test-Report-2025.01.04.18.51.36.html: The report loads multiple external CDN resources (Extent, Font Awesome) over the network. This introduces supply-chain and availability risk: reports can break if the CDN is unavailable, and remote assets can change unexpectedly. Prefer vendored/local assets for deterministic test reporting.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [34] (medium) reports/Test-Report-2025.01.04.18.51.36.html: The HTML report depends on several external CSS/JS assets, which can slow first render and increase report load time. For automation reports that may be viewed offline or in restricted environments, bundling assets locally improves reliability and performance.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [35] (medium) reports/Test-Report-2025.01.06.12.33.00.html: This generated report also references external CDN assets. In addition to availability risk, any dynamic remote dependencies make the generated artifact less self-contained and can create audit/compliance concerns. Use local static assets for immutable test artifacts.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [36] (medium) reports/Test-Report-2025.01.06.12.36.03.html: The report relies on externally hosted frontend assets. If these reports are shared outside the network or stored long-term, external dependencies reduce reproducibility and may expose usage metadata. Prefer local hosting or asset inlining.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [37] (medium) reports/Test-Report-2025.01.06.20.46.04.html: Generated HTML report includes remote CDN dependencies. This is not inherently unsafe, but it is a supply-chain and offline-usage concern. Consider packaging the report with local assets to avoid dependency drift and runtime failures.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [38] (medium) reports/Test-Report-2025.01.06.20.48.01.html: The report is built around external resources loaded from public CDNs. For a test artifact, this is a robustness and trust issue. Localize assets or verify integrity with SRI where feasible.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [39] (medium) src/test/java/pageObjects/AccountRegistrationPage.java: Use of XPath for simple id-based inputs is unnecessary and more fragile than By.id or @FindBy(id=...). XPath adds complexity and can slow element lookup slightly. Replace with the simplest stable selector available.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [40] (medium) src/test/java/pageObjects/AddToCart.java: Presence of WebDriverWait/ExpectedConditions suggests synchronization may be handled ad hoc inside the page object. Poorly scoped waits can slow tests significantly. Use targeted explicit waits only around unstable elements and avoid fixed sleeps or broad waits that affect every interaction.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [41] (medium) src/test/java/pageObjects/AddToWishlist.java: Class contains commented-out dead code and unclear selector naming (e.g., firstitem). This reduces readability and makes the page object harder to maintain.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [42] (medium) src/test/java/pageObjects/AddToWishlist.java: clickAddToWishlist relies on waitForElementToBeClickable, but the base class shown does not define that helper. If inherited behavior is incomplete or inconsistent, this page object may not function reliably.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [43] (medium) src/test/java/pageObjects/BasePage.java: BasePage only initializes PageFactory and does not provide shared wait, retry, logging, or safe interaction utilities. This weakens separation of concerns and encourages duplicated synchronization logic across page objects.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [44] (medium) src/test/java/pageObjects/CheckoutPage.java: Potential misuse of direct By locators without an initialization/interaction abstraction. In Selenium page objects, favor small focused methods and reusable wait utilities. If this class is only a locator container, it violates separation of concerns and makes tests depend on page internals.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [45] (medium) src/test/java/pageObjects/LoginPage.java: Locators are defined using xpath for simple id-based elements. Using By.id or @FindBy(id=...) would be simpler, more readable, and less brittle.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [46] (medium) src/test/java/pageObjects/MyAccount.java: isMyAccountPageExists uses a broad try/catch that swallows all exceptions and returns false. This hides real failures and makes debugging harder; prefer explicit waits and targeted exception handling.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [47] (medium) src/test/java/pageObjects/MyAccount.java: clickLogout performs a direct click without checking visibility/clickability. This can fail on partially loaded pages or when overlays are present.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [48] (medium) src/test/java/pageObjects/PaymentPage.java: Direct driver.findElement calls without explicit waits can create flaky tests and repeated polling failures, especially in dynamic payment flows. Introduce explicit waits around payment method selection, field readiness, and confirmation actions.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [49] (medium) src/test/java/pageObjects/ShippingPage.java: selectShippingMethod(String method) relies on a hard-coded string comparison ('Flat Shipping Rate') and contains placeholder logic for other methods. This is brittle, not scalable, and can silently do nothing when an unsupported value is passed. Use an enum or data-driven mapping and fail fast for unknown methods.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [50] (medium) src/test/java/pageObjects/ShippingPage.java: The method does not validate the method argument for null before calling equalsIgnoreCase, which can cause a NullPointerException if method is null. Add an explicit null check or invert the comparison with a constant-first pattern.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [51] (medium) src/test/java/pageObjects/ShippingPage.java: The class mixes page object responsibilities with business-rule branching logic. If multiple shipping methods are supported, the selection logic should be centralized and ideally expressed through named methods or a strategy/enum-based approach.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [52] (medium) src/test/java/pageObjects/ShippingPage.java: clickContinue() directly clicks the element without waiting for visibility/clickability. In UI tests this can cause flaky failures due to timing issues. Use explicit waits before interacting with dynamic elements.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [53] (medium) src/test/java/pageObjects/ShoppingCart.java: Repeated driver.findElement lookups in each action method create unnecessary DOM queries. Caching local references within a method or using PageFactory/explicit wait helpers can reduce repeated lookups and improve stability.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [54] (medium) src/test/java/pageObjects/TitleVerificationPage.java: isTitleCorrect(String expectedTitle) calls actualTitle.equals(expectedTitle), which will throw NullPointerException if the page title is unexpectedly null. Use Objects.equals(actualTitle, expectedTitle) or null-safe comparison.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [55] (medium) src/test/java/testCases/TC_001_AccountRegistrationTest.java: The registration test generates random email/identity data, which is fine for test data isolation, but it can create uncontrolled accounts in shared environments if cleanup is not implemented. Ensure test accounts are cleaned up or routed to a dedicated test tenant to avoid data pollution and privacy concerns.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [56] (medium) src/test/java/testCases/TC_001_AccountRegistrationTest.java: The test contains multiple sequential UI actions without visible assertions in the provided snippet. UI tests without strong assertions can pass while failing business intent. Add explicit post-registration assertions and consistent failure handling to improve diagnostic value.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [57] (medium) src/test/java/testCases/TC_002_LoginTest.java: Credentials are read from configuration properties (p.getProperty('email') / password), which is appropriate, but the repository should ensure secrets are not committed in plain text. Verify that property files are excluded from version control or replaced with environment-based secret injection.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [58] (medium) src/test/java/testCases/TC_003_LoginDDT.java: The test appears to rely on string-based expected outcome handling ('exp') with embedded comment rules. This is fragile and unclear. Use a typed enum or explicit assertions per scenario to make intent obvious and reduce false positives/negatives.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [59] (medium) src/test/java/testCases/TC_004_Wishlist.java: The test class name and method name do not clearly communicate the behavior under test beyond a generic login step. Use behavior-focused naming such as addItemToWishlist or verifyWishlistFromProductPage to improve discoverability and reporting.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [60] (medium) src/test/java/testCases/TC_005_AddToCart.java: Add-to-cart flow likely repeats login steps in every test case. Re-authenticating in each test increases execution time and creates unnecessary UI load. Prefer authenticated session setup via before-method hooks or API/login shortcuts when appropriate for test scope.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [61] (medium) src/test/java/testCases/TitleVerificationTest.java: Test code appears to contain hardcoded application URL usage. Externalizing environment-specific URLs into configuration improves portability and reduces maintenance overhead.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [62] (medium) src/test/java/utilities/ExcelUtility.java: Apache POI workbook operations can be memory intensive. If this utility loads entire Excel files into memory for small read/write operations, it may become slow or fail on larger sheets. Consider streaming APIs (SXSSF) for large files and minimizing workbook lifetime.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [63] (medium) src/test/java/utilities/ExcelUtility.java: The class exposes internal POI objects and state as public fields (workbook, sheet, row, cell, style). This makes the utility harder to reason about and encourages external mutation. Encapsulate these fields and expose purpose-specific methods instead.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [64] (medium) src/test/java/utilities/ExtentReportManager.java: Public mutable fields (sparkReporter, extent, extentTest, testName) are visible in the class snippet. Exposing mutable state increases coupling and makes listener behavior fragile under parallel execution. Prefer private fields with controlled access and thread-safe handling if tests run concurrently.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [65] (low) nested-repo-1/file1.py: The file only contains a print statement and no reusable logic, structure, or error handling. This is acceptable for a smoke test or placeholder, but it provides no meaningful maintainable code.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [66] (low) nested-repo-2/file4.html: The HTML uses a centered fixed-height layout (height: 100vh) which can cause content clipping on small screens or when browser UI changes viewport height. Prefer min-height and responsive spacing to improve usability.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [67] (low) nested-repo-2/file4.html: Styles are embedded directly in the HTML document. For larger or reused UI, moving CSS to an external stylesheet improves maintainability and caching.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [68] (low) src/test/java/pageObjects/Logout.java: Class is empty and currently adds no behavior over BasePage. If unused, it should be removed; if intended, it should contain meaningful locators/actions or be renamed to reflect its purpose.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [69] (low) src/test/java/pageObjects/TitleVerificationPage.java: getPageTitle() is a thin wrapper over driver.getTitle() and adds little value. Consider removing it unless it is part of a consistent page-object API.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [70] (low) src/test/java/pageObjects/TitleVerificationPage.java: The comparison is case-sensitive and exact-match only. If titles may vary by spacing/casing in test environments, normalize inputs or document the strict expectation clearly.
+  - Reason: Deferred by automated fix budget (6 issues per run).
+  - Next step: Rerun a focused fix pass or review this issue manually.
+- [71] (high) src/test/java/pageObjects/HomePage.java: Class contains a redundant WebDriver field while also inheriting from BasePage, which likely already stores the driver. This duplication can cause inconsistency and confusion. Remove the duplicate field and rely on the base class driver reference.
+  - Reason: Deferred by automated fix file budget (3 files per run).
+  - Next step: Rerun a focused fix pass for this file or update it manually.
+- [72] (high) src/test/java/pageObjects/HomePage.java: Locator naming and selector quality appear inconsistent and potentially fragile (e.g., text-based XPath with exact wording like 'Show AllLaptops & Notebooks'). Text-based locators are brittle across UI copy changes. Prefer stable attributes, ids, or data-test selectors when available.
+  - Reason: Deferred by automated fix file budget (3 files per run).
+  - Next step: Rerun a focused fix pass for this file or update it manually.
+- [73] (high) src/test/java/pageObjects/LoginPage.java: No validation or synchronization is present before interacting with login fields and button. If elements are delayed, tests may become flaky due to stale or not-yet-visible elements.
+  - Reason: Deferred by automated fix file budget (3 files per run).
+  - Next step: Rerun a focused fix pass for this file or update it manually.
+- [74] (high) src/test/java/pageObjects/AccountRegistrationPage.java: Page object shows long field declarations with repetitive @FindBy locators and likely several direct element actions. This pattern increases maintenance cost and makes locator drift hard to manage. Consider grouping locators by page sections, using clearer naming conventions, and extracting reusable form interaction helpers.
+  - Reason: The AI did not generate a meaningful source-file change for this issue.
+  - Next step: Review the finding manually or rerun a focused fix pass with more context.
+- [75] (high) src/test/java/pageObjects/AddToCart.java: The class mixes Page Object responsibilities with Selenium support details (WebDriverWait imports and commented-out alternative locators). Commented code and unused imports are code smells that reduce clarity and suggest incomplete refactoring. Remove dead code and keep only the interactions required by the page object.
+  - Reason: The AI did not generate a meaningful source-file change for this issue.
+  - Next step: Review the finding manually or rerun a focused fix pass with more context.
+
+
+---
+
+## Previous AI Fix Notes
+
+# AI Fix Notes
+
 Session: seq-1785481520730-sv2ikcecs
 Repository: Ncorp30/GitDemo
 
