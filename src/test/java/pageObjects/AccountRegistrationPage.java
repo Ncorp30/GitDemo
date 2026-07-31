@@ -113,6 +113,11 @@ public void submitRegistration() {
 	clickContinue();
 }
 
+public void registerAccount(String fname, String lname, String email, String tel, String pwd, String confirmPwd) {
+	fillRegistrationForm(fname, lname, email, tel, pwd, confirmPwd);
+	submitRegistration();
+}
+
 public String getConfirmationMsg() {
 	try {
 		return (msgConfirmation.getText());
@@ -121,5 +126,9 @@ public String getConfirmationMsg() {
 
 	}
 
+}
+
+public String validateSuccessMessage() {
+	return getConfirmationMsg();
 }
 }
