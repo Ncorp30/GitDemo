@@ -20,8 +20,7 @@ public class AddToWishlist extends BasePage {
 	//	Notebooks.click();
 	//}
 	
-	public void clickAddToWishlist() {
-		waitForElementToBeClickable(firstitem);
+	public void clickaddwishlist() {
 		firstitem.click();
 	}
 
