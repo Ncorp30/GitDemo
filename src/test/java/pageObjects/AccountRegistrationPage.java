@@ -16,7 +16,7 @@ public class AccountRegistrationPage extends BasePage{
 WebElement txtFirstname;
 
 @FindBy(xpath="//input[@id='input-lastname']") 
-WebElement txtLasttname;
+WebElement txtLastname;
 
 @FindBy(xpath="//input[@id='input-email']") 
 WebElement txtEmail;
@@ -46,7 +46,7 @@ public void setFirstName(String fname) {
 }
 
 public void setLastName(String lname) {
-	txtLasttname.sendKeys(lname);
+	txtLastname.sendKeys(lname);
 
 }
 

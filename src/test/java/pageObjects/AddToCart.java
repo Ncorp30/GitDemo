@@ -11,19 +11,19 @@ public class AddToCart extends BasePage {
 	}
 
 	@FindBy(xpath = "//input[@id='input-email']")
-	WebElement txtEmailAddress;
+	private WebElement txtEmailAddress;
 
 	@FindBy(xpath = "//input[@id='input-password']")
-	WebElement txtPassword;
+	private WebElement txtPassword;
 
 	@FindBy(xpath = "//input[@value='Login']")
-	WebElement btnLogin;
+	private WebElement btnLogin;
 
 
 	@FindBy(xpath = "//button[@class='btn btn-primary']//i[@class='fa fa-shopping-cart']")
-	WebElement addtocart;
+	private WebElement addtocart;
 	@FindBy(xpath = "//button[@id='button-cart']")
-	WebElement addtocart1;
+	private WebElement addtocart1;
 	/*@FindBy(xpath = "//input[@id='input-option225']")
 	WebElement txtdeliverydate;
 	

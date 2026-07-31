@@ -12,16 +12,16 @@ public class CheckoutPage {
     }
 
     // Locators
-    By firstNameField = By.id("input-payment-firstname");
-    By lastNameField = By.id("input-payment-lastname");
-    By emailField = By.id("input-payment-email");
-    By phoneField = By.id("input-payment-telephone");
-    By addressField = By.id("input-payment-address-1");
-    By cityField = By.id("input-payment-city");
-    By postCodeField = By.id("input-payment-postcode");
-    By countryDropdown = By.id("input-payment-country");
-    By regionDropdown = By.id("input-payment-zone");
-    By continueButton = By.id("button-payment-address");
+    private final By firstNameField = By.id("input-payment-firstname");
+    private final By lastNameField = By.id("input-payment-lastname");
+    private final By emailField = By.id("input-payment-email");
+    private final By phoneField = By.id("input-payment-telephone");
+    private final By addressField = By.id("input-payment-address-1");
+    private final By cityField = By.id("input-payment-city");
+    private final By postCodeField = By.id("input-payment-postcode");
+    private final By countryDropdown = By.id("input-payment-country");
+    private final By regionDropdown = By.id("input-payment-zone");
+    private final By continueButton = By.id("button-payment-address");
 
     // Actions
     public void fillCheckoutForm(String fName, String lName, String email, String phone, String addr, String city, String postCode, String country) {
