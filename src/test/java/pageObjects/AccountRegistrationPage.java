@@ -109,17 +109,4 @@ public void registerAccount(String fname, String lname, String email, String tel
 	submitRegistration();
 }
 
-public String getConfirmationMsg() {
-	try {
-		return (driver.findElement(msgConfirmation).getText());
-	} catch (Exception e) {
-		return (e.getMessage());
-
-	}
-
-}
-
-public String validateSuccessMessage() {
-	return getConfirmationMsg();
-}
 }
