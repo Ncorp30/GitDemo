@@ -7,11 +7,6 @@ public class CheckoutPage {
 
     private final WebDriver driver;
 
-    public CheckoutPage(WebDriver driver) {
-        this.driver = driver;
-    }
-
-    // Locators
     private final By firstNameField = By.id("input-payment-firstname");
     private final By lastNameField = By.id("input-payment-lastname");
     private final By emailField = By.id("input-payment-email");
@@ -22,6 +17,12 @@ public class CheckoutPage {
     private final By countryDropdown = By.id("input-payment-country");
     private final By regionDropdown = By.id("input-payment-zone");
     private final By continueButton = By.id("button-payment-address");
+
+    public CheckoutPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    // Locators
 
     // Actions
     public void fillCheckoutForm(String fName, String lName, String email, String phone, String addr, String city, String postCode, String country) {

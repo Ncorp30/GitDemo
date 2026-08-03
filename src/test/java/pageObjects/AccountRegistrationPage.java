@@ -1,8 +1,8 @@
 package pageObjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 public class AccountRegistrationPage extends BasePage{
 	
@@ -12,72 +12,63 @@ public class AccountRegistrationPage extends BasePage{
 	}
 	
 
-	@FindBy(xpath="//input[@id='input-firstname']") 
-	private WebElement txtFirstname;
+	private By txtFirstname = By.xpath("//input[@id='input-firstname']");
 
-	@FindBy(xpath="//input[@id='input-lastname']") 
-	private WebElement txtLastname;
+	private By txtLastname = By.xpath("//input[@id='input-lastname']");
 
-	@FindBy(xpath="//input[@id='input-email']") 
-	private WebElement txtEmail;
+	private By txtEmail = By.xpath("//input[@id='input-email']");
 
-	@FindBy(xpath="//input[@id='input-telephone']") 
-	private WebElement txtTelephone;
+	private By txtTelephone = By.xpath("//input[@id='input-telephone']");
 
-	@FindBy(xpath="//input[@id='input-password']") 
-	private WebElement txtPassword;
+	private By txtPassword = By.xpath("//input[@id='input-password']");
 
-	@FindBy(xpath="//input[@id='input-confirm']") 
-	private WebElement txtConfirmPassword;
+	private By txtConfirmPassword = By.xpath("//input[@id='input-confirm']");
 
-	@FindBy(xpath="//input[@name='agree']") 
-	private WebElement chkdPolicy;
+	private By chkdPolicy = By.xpath("//input[@name='agree']");
 
-	@FindBy(xpath="//input[@value='Continue']") 
-	private WebElement btnContinue;
+	private By btnContinue = By.xpath("//input[@value='Continue']");
 
-	@FindBy(xpath = "//h1[normalize-space()='Your Account Has Been Created!']")
-	private WebElement msgConfirmation;
+	private By msgConfirmation = By.xpath("//h1[normalize-space()='Your Account Has Been Created!']");
 
 
 public void setFirstName(String fname) {
-	txtFirstname.sendKeys(fname);
+	driver.findElement(txtFirstname).sendKeys(fname);
 
 }
 
 public void setLastName(String lname) {
-	txtLastname.sendKeys(lname);
+	driver.findElement(txtLastname).sendKeys(lname);
 
 }
 
 public void setEmail(String email) {
-	txtEmail.sendKeys(email);
+	driver.findElement(txtEmail).sendKeys(email);
 
 }
 
 public void setTelephone(String tel) {
-	txtTelephone.sendKeys(tel);
+	driver.findElement(txtTelephone).sendKeys(tel);
 
 }
 
 public void setPassword(String pwd) {
-	txtPassword.sendKeys(pwd);
+	driver.findElement(txtPassword).sendKeys(pwd);
 
 }
 
 public void setConfirmPassword(String pwd) {
-	txtConfirmPassword.sendKeys(pwd);
+	driver.findElement(txtConfirmPassword).sendKeys(pwd);
 
 }
 
 public void setPrivacyPolicy() {
-	chkdPolicy.click();
+	driver.findElement(chkdPolicy).click();
 
 }
 
 public void clickContinue() {
 	//sol1 
-	btnContinue.click();
+	driver.findElement(btnContinue).click();
 	
 	//sol2 
 	//btnContinue.submit();
@@ -120,7 +111,7 @@ public void registerAccount(String fname, String lname, String email, String tel
 
 public String getConfirmationMsg() {
 	try {
-		return (msgConfirmation.getText());
+		return (driver.findElement(msgConfirmation).getText());
 	} catch (Exception e) {
 		return (e.getMessage());
 
