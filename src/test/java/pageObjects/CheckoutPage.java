@@ -2,6 +2,7 @@ package pageObjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.Select;
 
 public class CheckoutPage {
 
@@ -26,18 +27,27 @@ public class CheckoutPage {
 
     // Actions
     public void fillCheckoutForm(String fName, String lName, String email, String phone, String addr, String city, String postCode, String country) {
-        driver.findElement(firstNameField).sendKeys(fName);
-        driver.findElement(lastNameField).sendKeys(lName);
-        driver.findElement(emailField).sendKeys(email);
-        driver.findElement(phoneField).sendKeys(phone);
-        driver.findElement(addressField).sendKeys(addr);
-        driver.findElement(cityField).sendKeys(city);
-        driver.findElement(postCodeField).sendKeys(postCode);
-        driver.findElement(countryDropdown).sendKeys(country);
+        fillTextField(firstNameField, fName);
+        fillTextField(lastNameField, lName);
+        fillTextField(emailField, email);
+        fillTextField(phoneField, phone);
+        fillTextField(addressField, addr);
+        fillTextField(cityField, city);
+        fillTextField(postCodeField, postCode);
+        selectDropdownByVisibleText(countryDropdown, country);
         driver.findElement(continueButton).click();
     }
 
     public void clickContinue() {
         driver.findElement(continueButton).click();
+    }
+
+    private void fillTextField(By field, String value) {
+        driver.findElement(field).clear();
+        driver.findElement(field).sendKeys(value);
+    }
+
+    private void selectDropdownByVisibleText(By dropdown, String value) {
+        new Select(driver.findElement(dropdown)).selectByVisibleText(value);
     }
 }
