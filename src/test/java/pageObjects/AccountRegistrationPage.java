@@ -12,19 +12,19 @@ public class AccountRegistrationPage extends BasePage{
 	}
 	
 
-	private By txtFirstname = By.xpath("//input[@id='input-firstname']");
+	private By txtFirstname = By.id("input-firstname");
 
-	private By txtLastname = By.xpath("//input[@id='input-lastname']");
+	private By txtLastname = By.id("input-lastname");
 
-	private By txtEmail = By.xpath("//input[@id='input-email']");
+	private By txtEmail = By.id("input-email");
 
-	private By txtTelephone = By.xpath("//input[@id='input-telephone']");
+	private By txtTelephone = By.id("input-telephone");
 
-	private By txtPassword = By.xpath("//input[@id='input-password']");
+	private By txtPassword = By.id("input-password");
 
-	private By txtConfirmPassword = By.xpath("//input[@id='input-confirm']");
+	private By txtConfirmPassword = By.id("input-confirm");
 
-	private By chkdPolicy = By.xpath("//input[@name='agree']");
+	private By chkdPolicy = By.name("agree");
 
 	private By btnContinue = By.xpath("//input[@value='Continue']");
 
