@@ -21,7 +21,6 @@ public class AddToWishlist extends BasePage {
 	//}
 	
 	public void clickAddToWishlist() {
-		waitForElementToBeClickable(firstitem);
 		firstitem.click();
 	}
 
