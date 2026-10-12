@@ -14,15 +14,16 @@ public class AddToCart extends BasePage {
 		super(driver);
 	}
 
-	@FindBy(xpath = "//button[@class='btn btn-primary']//i[@class='fa fa-shopping-cart']")
+	@FindBy(id = "button-cart")
 	private WebElement addtocart;
-	@FindBy(xpath = "//button[@id='button-cart']")
+	@FindBy(id = "button-cart")
 	private WebElement addtocart1;
 	/*@FindBy(xpath = "//input[@id='input-option225']")
 	WebElement txtdeliverydate;
 	
 	@FindBy(xpath = "//input[@id='input-quantity']")
 	WebElement txtquantity;
+	
 	@FindBy(xpath = "//button[@id='button-cart']")
 	WebElement btnAddToCart;*/
 	
