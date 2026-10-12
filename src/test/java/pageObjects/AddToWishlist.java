@@ -3,6 +3,7 @@ package pageObjects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class AddToWishlist extends BasePage {
 
@@ -22,7 +23,13 @@ public class AddToWishlist extends BasePage {
 	
 	public void clickAddToWishlist() {
 		waitForElementToBeClickable(firstitem);
-		firstitem.click();
+		try {
+			wait.until(ExpectedConditions.elementToBeClickable(firstitem));
+			firstitem.click();
+		} catch (Exception e) {
+			wait.until(ExpectedConditions.elementToBeClickable(firstitem));
+			firstitem.click();
+		}
 	}
 
 }
